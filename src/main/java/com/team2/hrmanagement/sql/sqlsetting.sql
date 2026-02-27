@@ -7,7 +7,7 @@ use hrmanagement;
 create table dept(
 	dno int auto_increment,
     constraint primary key(dno),
-    name varchar(30) not null
+    dname varchar(30) not null
 );
 create table emp(
 	eno int auto_increment,
@@ -28,7 +28,7 @@ create table vacation(
 );
 
 #[3] 테이블 샘플 데이터 10개 ( AI 활용 ) 
-insert into dept(name) values
+insert into dept(dname) values
 ('인사팀'),
 ('총무팀'),
 ('개발1팀'),

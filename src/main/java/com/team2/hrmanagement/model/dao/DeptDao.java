@@ -50,7 +50,7 @@ public class DeptDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DeptDto deptDto = new DeptDto(rs.getInt("dno"),
-                        rs.getString("name"));
+                        rs.getString("dname"));
                 list.add(deptDto);
             }
         } catch (Exception e) {
@@ -63,10 +63,9 @@ public class DeptDao {
     //2.부서 추가
     public boolean deptPost(DeptDto deptDto) {
         try {
-            String sql = "insert into dept(dno,name) values(?,?)"; //1.sql 작성
+            String sql = "insert into dept(dname) values(?)"; //1.sql 작성
             PreparedStatement ps = conn.prepareStatement(sql); //2.sql 등록
-            ps.setInt(1, deptDto.getDno()); ///3.첫번째 매개변수 값에 대입
-            ps.setString(2, deptDto.getName());  ///3.두번째 매개변수 값에 대입
+            ps.setString(1, deptDto.getDname());  //3.첫번째 매개변수 값에 대입
             int count = ps.executeUpdate(); //sql 실행하고 반영한 레코드 수를 저장한다.
             if (count == 1) {
                 return true;
@@ -80,9 +79,9 @@ public class DeptDao {
     //3.부서 수정
     public boolean deptUpdate(DeptDto deptDto) {
         try {
-            String sql = "update dept set name=? where dno=?";
+            String sql = "update dept set dname=? where dno=?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, deptDto.getName());
+            ps.setString(1, deptDto.getDname());
             ps.setInt(2, deptDto.getDno());
             int count = ps.executeUpdate(); //sql 실행하고 반영한 레코드 수를 저장한다.
             if (count == 1) {
@@ -96,11 +95,11 @@ public class DeptDao {
 
     //4.부서 삭제
     //4.부서 삭제
-    public boolean deptDelete (DeptDto deptDto){
+    public boolean deptDelete (int dno){
         try{
             String sql="delete from dept where dno=?";
             PreparedStatement ps=conn.prepareStatement(sql);
-            ps.setInt(1,deptDto.getDno());
+            ps.setInt(1,dno);
             int count=ps.executeUpdate();
             if(count==1){
                 return true;

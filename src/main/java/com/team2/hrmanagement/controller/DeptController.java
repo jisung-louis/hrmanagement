@@ -29,7 +29,8 @@ public class DeptController { //부서컨트롤러
 
     //2.부서 추가
     @PostMapping
-    public boolean deptPost(DeptDto deptDto){
+    public boolean deptPost(@RequestBody DeptDto deptDto){
+        System.out.println("입력 deptDto = " + deptDto);
         boolean result=deptDao.deptPost(deptDto);
         return result;
     }
@@ -38,15 +39,15 @@ public class DeptController { //부서컨트롤러
     //3.부서명 수정
 
     @PutMapping
-    public boolean deptUpdate(DeptDto deptDto){
+    public boolean deptUpdate(@RequestBody DeptDto deptDto){
         boolean result=deptDao.deptUpdate(deptDto);
         return result;
     }
 
     //4.부서 삭제
     @DeleteMapping
-    public boolean deptDelete(DeptDto deptDto){
-        boolean result=deptDao.deptDelete(deptDto);
+    public boolean deptDelete(@RequestParam int dno){
+        boolean result=deptDao.deptDelete(dno);
         return result;
     }
 
