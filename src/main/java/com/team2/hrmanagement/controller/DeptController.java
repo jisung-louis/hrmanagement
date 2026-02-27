@@ -25,8 +25,6 @@ public class DeptController { //부서컨트롤러
     }
 
 
-
-
     //2.부서 추가
     @PostMapping
     public boolean deptPost(@RequestBody DeptDto deptDto){
