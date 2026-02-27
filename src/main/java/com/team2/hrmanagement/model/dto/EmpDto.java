@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class EmpDto {
-    private int eno;
+    private Integer eno;
     private String ename;
     private String clsf; // 직급 (CLaSs oF position)
-    private int dno;
+    private Integer dno;
 }

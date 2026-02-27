@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class VacationDto {
-    private int vno;
-    private int eno;
+    private Integer vno;
+    private Integer eno;
     private String startDate;
     private String endDate;
     private String reason;
