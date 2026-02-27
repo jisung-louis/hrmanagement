@@ -27,7 +27,6 @@ const printDepts = async() => {
     select.innerHTML = selectHtml;
 
 }
-printDepts(); //처음 html 을 띄울때 부서 전체 조회
 
 
 
