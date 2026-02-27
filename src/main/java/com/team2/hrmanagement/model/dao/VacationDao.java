@@ -1,14 +1,15 @@
 package com.team2.hrmanagement.model.dao;
 
 import com.team2.hrmanagement.model.dto.EmpDto;
+import com.team2.hrmanagement.model.dto.VacationDto;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 @Component
-public class EmpDao {
-    public EmpDao() { connect(); } // 스프링이 빈 등록을 할 때 (객체 생성을 하면서 생성자 내부 코드가 발동되므로) connect() 함수 실행됨.
+public class VacationDao {
+    public VacationDao(){ connect(); } // 스프링이 빈 등록을 할 때 (객체 생성을 하면서 생성자 내부 코드가 발동되므로) connect() 함수 실행됨.
 
     // ====== 데이터베이스 연동 =======
     // 1) 연동할 DB서버의 정보
@@ -32,20 +33,21 @@ public class EmpDao {
     }
     // ====== 데이터베이스 연동 끝 ======
 
-    // 1. 모든 사원 조회
-    public ArrayList<EmpDto> findAll(){
-        ArrayList<EmpDto> list = new ArrayList<>();
+    // 1. 모든 휴가신청목록 조회
+    public ArrayList<VacationDto> findAll(){
+        ArrayList<VacationDto> list = new ArrayList<>();
         try{
-            String sql = "select * from emp";
+            String sql = "select * from vacation";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
+                int vno = rs.getInt("vno");
                 int eno = rs.getInt("eno");
-                String ename = rs.getString("ename");
-                String clsf = rs.getString("clsf");
-                int dno = rs.getInt("dno");
-                EmpDto empDto = new EmpDto(eno, ename, clsf, dno);
-                list.add(empDto);
+                String startDate = rs.getString("start_date");
+                String endDate = rs.getString("end_date");
+                String reason = rs.getString("reason");
+                VacationDto vacationDto = new VacationDto(vno, eno, startDate, endDate, reason);
+                list.add(vacationDto);
             }
         } catch(Exception e){
             System.out.println(e);
@@ -53,14 +55,15 @@ public class EmpDao {
         return list;
     }
 
-    // 2. 부서 추가
-    public boolean create(EmpDto empDto){
+    // 2. 휴가 신청
+    public boolean create(VacationDto vacationDto){
         try{
-            String sql = "insert into emp(ename, clsf, dno) values(?, ?, ?)";
+            String sql = "insert into vacation(eno, start_date, end_date, reason) values(?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, empDto.getEname());
-            ps.setString(2, empDto.getClsf());
-            ps.setInt(3, empDto.getDno());
+            ps.setInt(1, vacationDto.getEno());
+            ps.setString(2, vacationDto.getStartDate());
+            ps.setString(3, vacationDto.getEndDate());
+            ps.setString(4, vacationDto.getReason());
             int count = ps.executeUpdate(); // 반영된 레코드 수 반환
             if( count == 1 ) return true;
         } catch (Exception e) {
@@ -69,29 +72,12 @@ public class EmpDao {
         return false;
     }
 
-    // 3. 부서 수정
-    public boolean update(EmpDto empDto){
+    // 3. 휴가 신청 취소
+    public boolean delete(int vno){
         try{
-            String sql = "update emp set ename = ?, clsf = ?, dno = ?";
+            String sql = "delete from vacation where vno = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, empDto.getEname());
-            ps.setString(2, empDto.getClsf());
-            ps.setInt(3, empDto.getDno());
-            int count = ps.executeUpdate(); // 반영된 레코드 수 반환
-            if( count == 1 ) return true;
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return false;
-    }
-
-    // 4. 부서 삭제
-    public boolean delete(int eno){
-        try{
-            String sql = "delete from emp where eno = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, eno);
+            ps.setInt(1, vno);
             int count = ps.executeUpdate(); // 반영된 레코드 수 반환
             if( count == 1 ) return true;
 

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class DeptDto {
-    private int dno;
-    private String name;
+    private Integer dno;
+    private String dname;
 }
