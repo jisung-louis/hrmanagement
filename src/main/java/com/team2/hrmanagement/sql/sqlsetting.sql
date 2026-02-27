@@ -21,7 +21,7 @@ create table vacation(
 	vno int auto_increment,
     constraint primary key(vno),
     eno int,
-    constraint foreign key(eno) references emp(eno),
+    constraint foreign key(eno) references emp(eno) on delete cascade, # 사원이 제거되면 해당 사원의 휴가신청기록도 삭제
     start_date datetime,
     end_date datetime,
     reason varchar(30)
