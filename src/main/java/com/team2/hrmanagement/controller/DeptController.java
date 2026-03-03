@@ -28,16 +28,23 @@ public class DeptController { //부서컨트롤러
     //2.부서 추가
     @PostMapping
     public boolean deptPost(@RequestBody DeptDto deptDto){
+        if(deptDto.getDname()==null){
+            return false;
+        }
         System.out.println("입력 deptDto = " + deptDto);
         boolean result=deptDao.deptPost(deptDto);
         return result;
+
     }
 
 
     //3.부서명 수정
 
+    //모든 부서명 받아와서
+    //부서명 배열
     @PutMapping
     public boolean deptUpdate(@RequestBody DeptDto deptDto){
+
         boolean result=deptDao.deptUpdate(deptDto);
         return result;
     }

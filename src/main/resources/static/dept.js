@@ -16,8 +16,9 @@ const printDepts = async() => {
         tbodyHtml += `<tr>
                     <td> ${dept.dname} </td>
                     <td>
-                        <span class="update" onclick="">수정</span>
-                        <span class="delete" onclick="">삭제</span>
+                     <span class="update" onclick="updateDept(${dept.dno}, '${dept.dname}')">수정</span>
+                    
+                    <span class="delete" onclick="deleteDept(${dept.dno})">삭제</span>
                     </td>
                 </tr>`;
         selectHtml += `<option value="${dept.dno}">${dept.dname}</option>`;
@@ -26,7 +27,7 @@ const printDepts = async() => {
     tbody.innerHTML = tbodyHtml;
     select.innerHTML = selectHtml;
 
-}
+} //func end
 
 
 
@@ -41,7 +42,8 @@ const addDept = async() => {
     //3.배열 저장 axios를 이용한다.
 
 
-    //수정할 거:사용자가 입력한 값이 null 값이면 성공이 안되게 하기
+    //수정할 거:사용자가 입력한 값이 null 값이거나 이미 있는 부서명이면 추가 불가능하게 하는 코드 작성하기
+
     const response=await axios.post("/dept",obj);
     const data=response.data;
     if(data==true){
@@ -53,9 +55,32 @@ const addDept = async() => {
     }
     printDepts();
 } //func end
-const updateDept = async() => {
 
-}
-const deleteDept = async() => {
 
+
+
+
+//
+const updateDept = async(dno,dname) => {
+    const newDname = prompt("수정할 부서 이름을 입력하세요", dname);
+    const obj = {dno, dname: newDname};
+    const response = await axios.put("/dept", obj);
+    const data = response.data;
+    if (data == true) {
+        alert("부서 수정 성공!");
+        printDepts(); // 목록 새로고침
+    } else {
+        alert("부서 수정 실패");
+    }
 }
+const deleteDept = async(dno) => {
+
+    const response = await axios.delete(`/dept?dno=${dno}`);
+    const data = response.data;
+
+    if (data == true) {
+        alert("부서 삭제 성공");
+        printDepts();}
+    else {alert("부서 삭제 실패");}
+
+} //func end

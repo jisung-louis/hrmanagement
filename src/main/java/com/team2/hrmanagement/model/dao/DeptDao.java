@@ -94,7 +94,6 @@ public class DeptDao {
     }
 
     //4.부서 삭제
-    //4.부서 삭제
     public boolean deptDelete (int dno){
         try{
             String sql="delete from dept where dno=?";
@@ -109,5 +108,9 @@ public class DeptDao {
         }
         return false;
     } //func end
+
+
+
+
 
 }//class end
