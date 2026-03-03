@@ -12,4 +12,5 @@ public class EmpDto {
     private String ename;
     private String clsf; // 직급 (CLaSs oF position)
     private Integer dno;
+    private String dname;
 }

@@ -36,7 +36,7 @@ public class EmpDao {
     public ArrayList<EmpDto> findAll(){
         ArrayList<EmpDto> list = new ArrayList<>();
         try{
-            String sql = "select * from emp";
+            String sql = "select * from emp left join dept on emp.dno = dept.dno;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -44,7 +44,8 @@ public class EmpDao {
                 String ename = rs.getString("ename");
                 String clsf = rs.getString("clsf");
                 int dno = rs.getInt("dno");
-                EmpDto empDto = new EmpDto(eno, ename, clsf, dno);
+                String dname = rs.getString("dname");
+                EmpDto empDto = new EmpDto(eno, ename, clsf, dno, dname);
                 list.add(empDto);
             }
         } catch(Exception e){
@@ -72,11 +73,12 @@ public class EmpDao {
     // 3. 부서 수정
     public boolean update(EmpDto empDto){
         try{
-            String sql = "update emp set ename = ?, clsf = ?, dno = ?";
+            String sql = "update emp set ename = ?, clsf = ?, dno = ? where eno = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, empDto.getEname());
             ps.setString(2, empDto.getClsf());
             ps.setInt(3, empDto.getDno());
+            ps.setInt(4, empDto.getEno());
             int count = ps.executeUpdate(); // 반영된 레코드 수 반환
             if( count == 1 ) return true;
 

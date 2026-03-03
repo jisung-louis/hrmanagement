@@ -11,19 +11,24 @@ const printEmps = async() => {
     const data = response.data;
     for (let i = 0; i < data.length; i++) {
         const emp = data[i];
+        let eno = emp.eno;
+        let ename = emp.ename;
+        let clsf = emp.clsf;
+        let dno = emp.dno;
+        let dname = emp.dname;
         tbodyHtml += `<tr>
                     <td><img src="https://placehold.co/100x100"/></td>
-                    <td>${emp.ename}</td>
-                    <td>${emp.dno}</td>
-                    <td>${emp.clsf}</td>
-                    <td><span class="update" onclick="updateEmp(${emp})">수정</span>
-                        <span class="delete" onclick="deleteEmp(${emp})">삭제</span>
+                    <td>${ename}</td>
+                    <td>${dname}</td>
+                    <td>${clsf}</td>
+                    <td><span class="update" onclick="updateEmp(${eno}, '${ename}', '${clsf}', ${dno});">수정</span>
+                        <span class="delete" onclick="deleteEmp(${eno});">삭제</span>
                     </td>
                 </tr>`;
 
         // TODO : 17번 줄(emp.dno)이 숫자로 들어오는 걸 부서명(dname)으로 바꿔서 출력
 
-        selectHtml += `<option value="${emp.eno}">${emp.ename}</option>`;
+        selectHtml += `<option value="${eno}">${ename}</option>`;
     }
     // [3] 출력
     tbody.innerHTML = tbodyHtml;
@@ -43,11 +48,9 @@ const addEmp = async() => {
     }
     printEmps();
 }
-const updateEmp = async(beforeEmp) => {
-    const eno = beforeEmp.eno;
-    const ename = prompt("수정할 이름을 입력하세요 : ", beforeEmp.ename);
-    const clsf = prompt("수정할 직급을 입력하세요 : ", beforeEmp.clsf);
-    const dno = beforeEmp.dno;
+const updateEmp = async(eno, beforeEname, beforeClsf, dno) => {
+    const ename = prompt("수정할 이름을 입력하세요 : ", beforeEname);
+    const clsf = prompt("수정할 직급을 입력하세요 : ", beforeClsf);
 
     const emp = { eno, ename, clsf, dno };
     const result = await axios.put("/emp", emp);
@@ -57,8 +60,8 @@ const updateEmp = async(beforeEmp) => {
     printEmps();
     printVacations();
 }
-const deleteEmp = async(emp) => {
-    const result = await axios.delete(`/emp?eno=${emp.eno}`);
+const deleteEmp = async(eno) => {
+    const result = await axios.delete(`/emp?eno=${eno}`);
     if (result) {
         alert("사원정보 삭제에 성공했습니다.")
     }
