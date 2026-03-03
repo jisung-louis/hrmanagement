@@ -46,12 +46,18 @@ const addDept = async() => {
 
     const response=await axios.post("/dept",obj);
     const data=response.data;
-    if(data==true){
+    if(data==1){
         alert("부서 등록 성공!");
         dnameInput.value = "";
     }
-    else{
-        alert("부서 등록 실패");
+    else if(data==0){
+        alert("부서 등록 실패(Dao에서 실패)");
+    }
+    else if(data == 2){
+        alert("아무 값도 입력되지 않았습니다.")
+    }
+    else if(data == 3){
+        alert("이미 존재하는 부서명입니다.")
     }
     printDepts();
 } //func end

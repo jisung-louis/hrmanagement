@@ -27,13 +27,24 @@ public class DeptController { //부서컨트롤러
 
     //2.부서 추가
     @PostMapping
-    public boolean deptPost(@RequestBody DeptDto deptDto){
-        if(deptDto.getDname()==null){
-            return false;
+    public int deptPost(@RequestBody DeptDto deptDto){
+        // 유효성 검사 (중복 체크)
+        ArrayList<DeptDto> allDept = deptDao.findAllDept();
+        for (int i = 0; i < allDept.size(); i++) {
+            String dname = allDept.get(i).getDname(); // DB에서 가져온 부서 중 하나의 부서명 값
+            String input = deptDto.getDname(); // 사용자로부터 입력 받은 부서명 값
+            if(dname.equals(input)){
+                return 3;
+            }
+        }
+
+        // 유효성 검사(공백값이 들어왔는지 체크)
+        if(deptDto.getDname()==""){
+            return 2;
         }
         System.out.println("입력 deptDto = " + deptDto);
         boolean result=deptDao.deptPost(deptDto);
-        return result;
+        return result ? 1 : 0;
 
     }
 
