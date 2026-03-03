@@ -15,7 +15,7 @@ const printEmps = async() => {
         let ename = emp.ename;
         let clsf = emp.clsf;
         let dno = emp.dno;
-        let dname = emp.dname;
+        let dname = emp.dname ?? "부서 없음";
         tbodyHtml += `<tr>
                     <td><img src="https://placehold.co/100x100"/></td>
                     <td>${ename}</td>
