@@ -15,13 +15,13 @@ create table emp(
     ename varchar(30) not null,
     clsf varchar(20),
     dno int,
-    constraint foreign key(dno) references dept(dno)
+    constraint foreign key(dno) references dept(dno) on delete set null #삭제 기능때문에 수정
 );
 create table vacation(
 	vno int auto_increment,
     constraint primary key(vno),
     eno int,
-    constraint foreign key(eno) references emp(eno) on delete cascade, # 사원이 제거되면 해당 사원의 휴가신청기록도 삭제
+    constraint foreign key(eno) references emp(eno) on delete cascade, #사원이 제거되면 해당 사원의 휴가신청기록도 삭제 #03-03
     start_date datetime,
     end_date datetime,
     reason varchar(30)
