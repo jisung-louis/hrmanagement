@@ -37,7 +37,7 @@ public class VacationDao {
     public ArrayList<VacationDto> findAll(){
         ArrayList<VacationDto> list = new ArrayList<>();
         try{
-            String sql = "select * from vacation";
+            String sql = "select v.vno, v.eno, v.start_date, v.end_date, v.reason, e.ename from vacation v left join emp e on v.eno = e.eno";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -46,7 +46,8 @@ public class VacationDao {
                 String startDate = rs.getString("start_date");
                 String endDate = rs.getString("end_date");
                 String reason = rs.getString("reason");
-                VacationDto vacationDto = new VacationDto(vno, eno, startDate, endDate, reason);
+                String ename = rs.getString("ename");
+                VacationDto vacationDto = new VacationDto(vno, eno, startDate, endDate, reason, ename);
                 list.add(vacationDto);
             }
         } catch(Exception e){

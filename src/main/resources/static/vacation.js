@@ -10,7 +10,7 @@ const printVacations = async() => {
         const vacation = data[i];
         html += `<div class="list">
                     <div class="top">
-                        <span>${vacation.eno}</span>
+                        <span>${vacation.ename}</span>
                         <span onclick="cancelVacationRequest(${vacation.vno})">신청취소</span>
                     </div>
                     <div class="mid">

@@ -13,4 +13,5 @@ public class VacationDto {
     private String startDate;
     private String endDate;
     private String reason;
+    private String ename;
 }
